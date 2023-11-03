@@ -9,13 +9,20 @@ public class WorkspaceController : ControllerBase
     [HttpGet(Name = "GetWorkspace")]
     public async Task<IActionResult> GetWorkspace(long id)
     {
-        string content = await GetById("url", id);
+        string url = "https://localhost:7031/Workspace";
+        string content = await GetById(url, id);
         return Ok(content);
     }
 
+    // ToDo: Error handling
     private async Task<string> GetById(string url,  long id)
     {
-        using (HttpClient client = new HttpClient())
+        var handler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+        };
+        
+        using (HttpClient client = new HttpClient(handler))
         {
             try
             {
@@ -31,7 +38,7 @@ public class WorkspaceController : ControllerBase
             }
             catch (Exception ex)
             {
-                return "Request failed.";
+                return ex.InnerException.Message;
             }
         }
     }
