@@ -18,7 +18,6 @@ builder.Services.AddCors(options =>
 });
 
 
-// builder.Services.AddSingleton<Messenger>();
 builder.Services.AddSingleton(provider =>
 {
     string hostname = "localhost";

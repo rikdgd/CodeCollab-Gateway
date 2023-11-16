@@ -33,16 +33,7 @@ public class WorkspaceController : ControllerBase
         try
         {
             string workspaceJson = JsonSerializer.Serialize(workspace);
-
-            // using (Messenger messenger = new Messenger(
-            //            hostName: "localhost",
-            //            appName: "Gateway",
-            //            exchangeName: "workspace-exchange",
-            //            queueName: "workspace",
-            //            isConsumer: false))
-            // {
-            //     messenger.SendMessage($"CREATE Workspace FROM: {workspaceJson}");
-            // }
+            
             _messenger.SendMessage($"CREATE Workspace FROM: {workspaceJson}");
         
             return Ok($"Successfully created workspace from JSON:\n {workspaceJson}");
