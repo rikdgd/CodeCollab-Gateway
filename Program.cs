@@ -1,3 +1,5 @@
+using CodeCollab___Gateway.Utils;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,6 +16,18 @@ builder.Services.AddCors(options =>
         policyBuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
 });
+
+
+builder.Services.AddSingleton(provider =>
+{
+    string hostname = "localhost";
+    string appName = "Gateway";
+    string exchangeName = "test-exchange";
+    string queueName = "test-queue";
+
+    return new Messenger(hostname, appName, exchangeName, queueName, true, true);
+});
+
 
 var app = builder.Build();
 
