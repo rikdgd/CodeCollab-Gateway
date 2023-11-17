@@ -22,8 +22,8 @@ builder.Services.AddSingleton(provider =>
 {
     string hostname = "localhost";
     string appName = "Gateway";
-    string exchangeName = "test-exchange";
-    string queueName = "test-queue";
+    string exchangeName = "CodeCollab";
+    string queueName = "workspace-queue";
 
     return new Messenger(hostname, appName, exchangeName, queueName, false, true);
 });

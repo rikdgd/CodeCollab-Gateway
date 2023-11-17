@@ -32,7 +32,6 @@ public class WorkspaceController : ControllerBase
     {
         try 
         {
-            //string workspaceJson = JsonSerializer.Serialize(workspace);
             MessageModel<WorkspaceModel> messageModel = new MessageModel<WorkspaceModel>(
                 "Command", 
                 "CreateWorkspace", 
