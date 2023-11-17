@@ -3,7 +3,6 @@ namespace CodeCollab___Gateway.Models;
 
 public class WorkspaceModel
 {
-    public long Id { get; set; }
     public string Name { get; set; }
     public long OwnerId { get; set; }
 
@@ -13,9 +12,8 @@ public class WorkspaceModel
         
     }
 
-    public WorkspaceModel(int id, string name, int ownerId)
+    public WorkspaceModel(string name, int ownerId)
     {
-        Id = id;
         Name = name;
         OwnerId = ownerId;
     }

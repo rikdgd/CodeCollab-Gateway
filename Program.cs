@@ -25,7 +25,7 @@ builder.Services.AddSingleton(provider =>
     string exchangeName = "test-exchange";
     string queueName = "test-queue";
 
-    return new Messenger(hostname, appName, exchangeName, queueName, true, true);
+    return new Messenger(hostname, appName, exchangeName, queueName, false, true);
 });
 
 
