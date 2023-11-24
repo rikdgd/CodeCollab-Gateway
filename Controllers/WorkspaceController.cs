@@ -25,9 +25,9 @@ public class WorkspaceController : ControllerBase
         string content = await GetById(url, id);
         return Ok(content);
     }
-
-
-    [HttpPost(Name = "CreateWorkspace")]
+    
+    
+    [HttpPost("CreateWorkspace", Name = "CreateWorkspace")]
     public IActionResult CreateWorkspace([FromBody] WorkspaceModel workspace)
     {
         try 
