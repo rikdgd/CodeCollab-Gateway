@@ -1,4 +1,5 @@
-using CodeCollab___Gateway.Utils;
+using CarrotMQ;
+using CodeCollab___Gateway;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,15 +19,15 @@ builder.Services.AddCors(options =>
 });
 
 
-builder.Services.AddSingleton(provider =>
-{
-    string hostname = "localhost";
-    string appName = "Gateway";
-    string exchangeName = "CodeCollab";
-    string queueName = "workspace-queue";
+string hostname = "localhost";
+string appName = "Gateway";
+string exchangeName = "CodeCollab";
+string queueName = "workspace-queue";
 
-    return new Messenger(hostname, appName, exchangeName, queueName, false, true);
-});
+var messageHandler = new BasicMessageHandler();
+var messenger = new Messenger(hostname, appName, exchangeName, queueName, messageHandler, true);
+
+builder.Services.AddSingleton<Messenger>(messenger);
 
 
 var app = builder.Build();

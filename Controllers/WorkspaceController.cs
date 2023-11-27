@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using CodeCollab___Gateway.Models;
-using CodeCollab___Gateway.Utils;
+using CarrotMQ;
 
 
 namespace CodeCollab___Gateway.Controllers;
@@ -37,7 +37,7 @@ public class WorkspaceController : ControllerBase
                 "CreateWorkspace", 
                 workspace
             );
-
+            
             string message = JsonSerializer.Serialize(messageModel);
             _messenger.SendMessage(message);
             
