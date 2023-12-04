@@ -25,7 +25,7 @@ string exchangeName = "CodeCollab";
 string queueName = "workspace-queue";
 
 var messageHandler = new BasicMessageHandler();
-var messenger = new Messenger(hostname, appName, exchangeName, queueName, messageHandler, true);
+var messenger = new Messenger(hostname, appName, exchangeName, queueName, messageHandler, isConsumer: false, true);
 
 builder.Services.AddSingleton<Messenger>(messenger);
 
