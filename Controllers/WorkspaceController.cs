@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using CodeCollab___Gateway.Models;
+using CodeCollab___Gateway.Services;
 using CodeCollab___Gateway.Utils;
 
 
@@ -11,6 +12,7 @@ namespace CodeCollab___Gateway.Controllers;
 public class WorkspaceController : ControllerBase
 {
     private readonly Messenger _messenger;
+    private readonly WorkspaceService _service = new();
 
     public WorkspaceController(Messenger messenger)
     {
@@ -22,7 +24,7 @@ public class WorkspaceController : ControllerBase
     public async Task<IActionResult> GetWorkspace(long id)
     {
         string url = "https://localhost:7031/Workspace";
-        string content = await GetById(url, id);
+        string content = await _service.GetById(url, id);
         return Ok(content);
     }
 
@@ -42,36 +44,6 @@ public class WorkspaceController : ControllerBase
         {
             Console.WriteLine(e);
             return BadRequest("Failed to create the new workspace.");
-        }
-    }
-    
-
-    // ToDo: Error handling
-    private async Task<string> GetById(string url,  long id)
-    {
-        var handler = new HttpClientHandler
-        {
-            ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
-        };
-        
-        using (HttpClient client = new HttpClient(handler))
-        {
-            try
-            {
-                HttpResponseMessage response = await client.GetAsync(url);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string content = await response.Content.ReadAsStringAsync();
-                    return content;
-                }
-                
-                return "Could not get response content.";
-            }
-            catch (Exception ex)
-            {
-                return ex.InnerException.Message;
-            }
         }
     }
 }
