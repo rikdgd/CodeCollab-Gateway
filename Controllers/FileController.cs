@@ -33,7 +33,7 @@ public class FileController : ControllerBase
             return BadRequest("The uploaded file doesn't contain any content.");
         }
 
-        CodeFileModel codeFile = new CodeFileModel(file.Name, userId: userId, workspaceId: workspaceId);
+        CodeFileModel codeFile = new CodeFileModel(file.FileName, userId: userId, workspaceId: workspaceId);
 
         try
         {
