@@ -1,4 +1,5 @@
-using CodeCollab___Gateway.Utils;
+using RabbitMessenger;
+using CodeCollab___Gateway;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,15 +19,15 @@ builder.Services.AddCors(options =>
 });
 
 
-builder.Services.AddSingleton(provider =>
-{
-    string hostname = "localhost";
-    string appName = "Gateway";
-    string exchangeName = "test-exchange";
-    string queueName = "test-queue";
+string hostname = "localhost";
+string appName = "Gateway";
+string exchangeName = "CodeCollab";
+string queueName = "workspace-queue";
 
-    return new Messenger(hostname, appName, exchangeName, queueName, true, true);
-});
+var messageHandler = new BasicMessageHandler();
+var messenger = new Messenger(hostname, appName, exchangeName, queueName, messageHandler, isConsumer: false, true);
+
+builder.Services.AddSingleton(messenger);
 
 
 var app = builder.Build();

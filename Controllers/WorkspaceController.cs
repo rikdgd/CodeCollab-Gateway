@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using CodeCollab___Gateway.Models;
-using CodeCollab___Gateway.Utils;
+using RabbitMessenger;
 
 
 namespace CodeCollab___Gateway.Controllers;
@@ -25,23 +25,27 @@ public class WorkspaceController : ControllerBase
         string content = await GetById(url, id);
         return Ok(content);
     }
-
-
-    [HttpPost(Name = "CreateWorkspace")]
+    
+    
+    [HttpPost("CreateWorkspace", Name = "CreateWorkspace")]
     public IActionResult CreateWorkspace([FromBody] WorkspaceModel workspace)
     {
-        try
+        try 
         {
-            string workspaceJson = JsonSerializer.Serialize(workspace);
+            MessageModel<WorkspaceModel> messageModel = new MessageModel<WorkspaceModel>(
+                "Command", 
+                "CreateWorkspace", 
+                workspace
+            );
             
-            _messenger.SendMessage($"CREATE Workspace FROM: {workspaceJson}");
-        
-            return Ok($"Successfully created workspace from JSON:\n {workspaceJson}");
+            string message = JsonSerializer.Serialize(messageModel);
+            _messenger.SendMessage(message);
+            
+            return Ok("Workspace creation successfully added to queue.");
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            Console.WriteLine(e);
-            return BadRequest("Failed to create the new workspace.");
+            return BadRequest("An error occured when trying to create the workspace: \n" + ex.Message);
         }
     }
     
