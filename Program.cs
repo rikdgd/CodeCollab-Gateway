@@ -19,6 +19,7 @@ builder.Services.AddCors(options =>
 });
 
 
+// Configure RabbitMQ messenger
 string hostname = "localhost";
 string appName = "Gateway";
 string exchangeName = "CodeCollab";

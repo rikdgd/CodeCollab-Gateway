@@ -74,7 +74,7 @@ public class WorkspaceController : ControllerBase
             }
             catch (Exception ex)
             {
-                return ex.InnerException.Message;
+                return ex.Message;
             }
         }
     }

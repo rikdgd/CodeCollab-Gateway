@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace CodeCollab___Gateway.Models;
 
@@ -6,7 +8,9 @@ namespace CodeCollab___Gateway.Models;
 public class WorkspaceModel
 {
     [JsonIgnore]
-    public string? Id { get; set; }
+    [BsonId]
+    [BsonIgnoreIfDefault]
+    public ObjectId? Id { get; set; }
     public string Name { get; set; }
     public long OwnerId { get; set; }
 
@@ -16,7 +20,14 @@ public class WorkspaceModel
         
     }
 
-    public WorkspaceModel(string name, int ownerId)
+    public WorkspaceModel(string id, string name, int ownerId)
+    {
+        Id = ObjectId.Parse(id);
+        Name = name;
+        OwnerId = ownerId;
+    }
+
+    public WorkspaceModel(string name, long ownerId)
     {
         Name = name;
         OwnerId = ownerId;
