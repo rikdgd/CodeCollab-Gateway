@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using CodeCollab___Gateway.Models;
-using CarrotMQ;
+using RabbitMessenger;
 
 
 namespace CodeCollab___Gateway.Controllers;

@@ -1,4 +1,4 @@
-using CarrotMQ;
+using RabbitMessenger.Interfaces;
 
 namespace CodeCollab___Gateway;
 

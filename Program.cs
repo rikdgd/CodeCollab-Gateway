@@ -1,4 +1,4 @@
-using CarrotMQ;
+using RabbitMessenger;
 using CodeCollab___Gateway;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +27,7 @@ string queueName = "workspace-queue";
 var messageHandler = new BasicMessageHandler();
 var messenger = new Messenger(hostname, appName, exchangeName, queueName, messageHandler, isConsumer: false, true);
 
-builder.Services.AddSingleton<Messenger>(messenger);
+builder.Services.AddSingleton(messenger);
 
 
 var app = builder.Build();
