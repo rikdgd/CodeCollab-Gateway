@@ -12,7 +12,7 @@ public class WorkspaceModel
     [BsonIgnoreIfDefault]
     public ObjectId? Id { get; set; }
     public string Name { get; set; }
-    public long OwnerId { get; set; }
+    public string OwnerId { get; set; }
 
     
     public WorkspaceModel() 
@@ -20,14 +20,14 @@ public class WorkspaceModel
         
     }
 
-    public WorkspaceModel(string id, string name, int ownerId)
+    public WorkspaceModel(string id, string name, string ownerId)
     {
         Id = ObjectId.Parse(id);
         Name = name;
         OwnerId = ownerId;
     }
 
-    public WorkspaceModel(string name, long ownerId)
+    public WorkspaceModel(string name, string ownerId)
     {
         Name = name;
         OwnerId = ownerId;
