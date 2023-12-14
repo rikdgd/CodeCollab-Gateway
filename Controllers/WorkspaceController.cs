@@ -19,11 +19,62 @@ public class WorkspaceController : ControllerBase
     
     
     [HttpGet(Name = "GetWorkspace")]
-    public async Task<IActionResult> GetWorkspace(long id)
+    public async Task<IActionResult> GetWorkspace(string id)
     {
-        string url = "https://localhost:7031/Workspace";
-        string content = await GetById(url, id);
-        return Ok(content);
+        string url = "https://localhost:7031/Workspace/GetWorkspace?workspaceId=" + id;
+        var handler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+        };
+
+        using HttpClient client = new HttpClient(handler);
+        try
+        {
+            HttpResponseMessage response = await client.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                return Ok(content);
+            }
+
+            return BadRequest("Could not get response content.");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+
+    [HttpGet("GetWorkspacesByUserId", Name = "GetWorkspacesByUserId")]
+    public async Task<IActionResult> GetWorkspacesByUserId(string userId)
+    {
+        string url = "https://localhost:7031/Workspace/GetWorkspaceByUserId?userId=" + userId;
+        HttpClientHandler handler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+        };
+        
+        using (HttpClient client = new HttpClient(handler))
+        {
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    return Ok(content);
+                }
+                
+                return BadRequest("Could not get response content.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
     
     
@@ -46,36 +97,6 @@ public class WorkspaceController : ControllerBase
         catch (Exception ex)
         {
             return BadRequest("An error occured when trying to create the workspace: \n" + ex.Message);
-        }
-    }
-    
-
-    // ToDo: Error handling
-    private async Task<string> GetById(string url,  long id)
-    {
-        var handler = new HttpClientHandler
-        {
-            ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
-        };
-        
-        using (HttpClient client = new HttpClient(handler))
-        {
-            try
-            {
-                HttpResponseMessage response = await client.GetAsync(url);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string content = await response.Content.ReadAsStringAsync();
-                    return content;
-                }
-                
-                return "Could not get response content.";
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
         }
     }
 }
